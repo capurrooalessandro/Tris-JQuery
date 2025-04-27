@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tris JQuery</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+	var contaTurni = 0; //conta quanti turni sono disponibili
+	var partita; //variabile che serve per dedurre se la partita è iniziata o meno
+	var turnoGiocatore; //variabile che serve per dedurre il turno del giocatore
+	var caselle = []; //array che serve per contenere le caselle
+	$(document).ready(function(){
+		//dichiarazione delle variabili
+		partita = true; //significa che la partita è iniziata
+		turnoGiocatore = "X";
+		// caselle = ["E"] sta a significare che le caselle sono vuote
+		caselle = ["E", "E", "E", "E", "E", "E", "E", "E", "E"]; 
+		$("td").click(function(event) {
+			if (partita == true) {
+				var pos = parseInt(event.target.id); 
+				//se le caselle sono vuote incremento contaTurni
+				if (caselle[pos] == "E") {	 
+					$(this).html(turnoGiocatore); 	
+					caselle[pos] = turnoGiocatore;
+					contaTurni++;
+					//verifica delle possibili combinazioni, se nelle varie caselle è presente almeno una combinazione, uno dei due giocatori (X o O) vince
+					if (contaTurni >= 5) {
+						if(((caselle[0] == turnoGiocatore) && (caselle[1] == turnoGiocatore)&&(caselle[2] == turnoGiocatore)) ||
+						((caselle[3] == turnoGiocatore) && (caselle[4] == turnoGiocatore)&&(caselle[5] == turnoGiocatore)) ||
+						((caselle[6] == turnoGiocatore) && (caselle[7] == turnoGiocatore)&&(caselle[8] == turnoGiocatore)) ||   
+						((caselle[0] == turnoGiocatore) && (caselle[3] == turnoGiocatore)&&(caselle[6] == turnoGiocatore)) ||
+						((caselle[1] == turnoGiocatore) && (caselle[4] == turnoGiocatore)&&(caselle[7] == turnoGiocatore)) ||
+						((caselle[2] == turnoGiocatore) && (caselle[5] == turnoGiocatore)&&(caselle[8] == turnoGiocatore)) ||
+						((caselle[0] == turnoGiocatore) && (caselle[4] == turnoGiocatore)&&(caselle[8] == turnoGiocatore)) ||   
+						((caselle[2] == turnoGiocatore) && (caselle[4] == turnoGiocatore)&&(caselle[6] == turnoGiocatore))){  
+							alert("Vince la " +turnoGiocatore);
+							partita = false;
+						}
+						//se le caselle sono piene e non c'è nessuna combinazione valida allora non vince nessuno
+						else if (contaTurni == 9){ 
+							alert("Nessun vincitore");
+						}
+					}
+					/*se tocca al giocatore con segno X e popola una casella allora al prossimo turno toccherà a O,
+					altrimenti toccherà ancora a X*/
+					if(turnoGiocatore == "X") {
+						turnoGiocatore = "O"      
+					} else {
+					turnoGiocatore = "X";
+					}
+				}
+			}
+		});
+	});
+	</script>
+	<style>			
+		p{
+			font-size: 40px;
+			font-family: verdana;
+		}
+		
+		.main{
+			font-family: arial;
+			margin-left: 50px;
+			font-size: 50px;
+		}
+		
+		img{
+			float: right;
+			margin-top: 0px;
+		}
+		td{
+			font-family: arial;
+			font-size: 60px;
+			text-align: center;
+			border-style: solid;
+			border-width: 1px;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+	<h2>Tris</h2>
+	<h2>Capurro Alessandro 4AII</h2>
+	</div>
+<table style="width: 50%; height: 108px;">
+	<tr>
+		<td id="0" style="width: 100px; height: 100px" class="casella"></td>
+		<td id="1" style="height: 100px; width: 100px" class="casella"></td>
+		<td id="2" style="height: 100px; width: 100px" class="casella"></td>
+	</tr>
+	<tr>
+		<td id="3" style="width: 100px; height: 100px;" class="casella"></td>
+		<td id="4" style="width: 100px; height: 100px;" class="casella"></td>
+		<td id="5" style="width: 100px; height: 100px;" class="casella"></td>
+	</tr>
+	<tr>
+		<td id="6" style="width: 100px; height: 99px;" class="casella"></td>
+		<td id="7" style="width: 100px; height: 99px;" class="casella"></td>
+		<td id="8" style="width: 100px; height: 99px;" class="casella"></td>
+	</tr>
+</table>
+</body>
+</html>
